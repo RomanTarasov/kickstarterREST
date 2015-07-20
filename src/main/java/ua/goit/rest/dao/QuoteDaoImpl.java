@@ -1,11 +1,11 @@
 package ua.goit.rest.dao;
 
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
+
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.rest.entity.Quote;
 
-@Component
+
 @Transactional
 public class QuoteDaoImpl extends AbstractDao<Quote> implements QuoteDao {
 

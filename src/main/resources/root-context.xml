@@ -11,7 +11,7 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<context:component-scan base-package="ua.goit"
+	<context:component-scan base-package="ua.goit.rest"
 		annotation-config="true">
 	</context:component-scan>
 	<jdbc:embedded-database type="HSQL" id="embeddedDataSource">
@@ -30,9 +30,12 @@
 	<bean id="mySessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="embeddedDataSource"></property>
-		<property name="packagesToScan" value="ua.goit"></property>
+		<property name="packagesToScan" value="ua.goit.rest"></property>
 	</bean>
 	<bean id="QuoteDaoImpl" name="quoteDaoImpl"
 		class="ua.goit.rest.dao.QuoteDaoImpl">
+	</bean>
+	<bean id="CategoryDaoImpl" name="categoryDaoImpl"
+		class="ua.goit.rest.dao.CategoryDaoImpl">
 	</bean>
 </beans>
