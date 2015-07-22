@@ -38,4 +38,7 @@
 	<bean id="CategoryDaoImpl" name="categoryDaoImpl"
 		class="ua.goit.rest.dao.CategoryDaoImpl">
 	</bean>
+	<bean id="ProjectDaoImpl" name="projectDaoImpl"
+		class="ua.goit.rest.dao.ProjectDaoImpl">
+	</bean>
 </beans>
