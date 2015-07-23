@@ -12,26 +12,42 @@ body {
 	
 }
 
-div#response {
-	position: relative;
-	width: 1024px;
-	height: 863px;
-	
+div#header {
+	width: auto;
+	height: 86px;
+	background-color: menu;
+	font-size: medium;
 }
-td {
 
-width: 94px;
-height: 30px;
+div#response {
+	width: auto;
+	height: 86px;
+	background-color: menu;
+	font-size: x-large;
+}
+
+td {
+	width: 94px;
+	height: 30px;
+	background-color: menu;
+	color: purple;
+	font-size: large;
 }
 </style>
 
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.1.0.min.js"></script>
+
 </head>
 
 <body background="">
-	<h1>Kickstarter</h1>
+	<div id="header">
+		<h1>Kickstarter</h1>
+	</div>
 
+	<div id="response">
+		<p id="quoteText"></p>
+	</div>
 	<div id="categories">
 		<table>
 			<tr>
@@ -42,22 +58,24 @@ height: 30px;
 			</tr>
 		</table>
 	</div>
-
-	<div id="response">
-		<p id="quoteText"></p>
-		<p id="category"></p>
-	</div>
-
-
 	<script>
 		$.getJSON('v1/quote/getRandom', function(data) {
-			$('#quoteText').append("<p>" + data.text + "</p>");
-		});
 		
+			addQuoteText(data);
+		});
+		function addQuoteText(data) {
+			$('#quoteText').append("<p>" + data.text + "</p>");
+		}
 	</script>
-
-
-
-
+	<script>
+		$.getJSON('v1/category/getAll', function(data) {
+			addCategoryName(data);
+		});
+		function addCategoryName(data) {
+			for (var index = 0; index < data.length; index++) {
+				$('#0' + index).append("<p>" + data[index].name + "</p>");
+			}
+		}
+	</script>
 </body>
 </html>
