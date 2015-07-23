@@ -20,19 +20,18 @@ public class ProjectRest {
 	@Autowired
 	private ProjectDao projectDao;
 
-	@RequestMapping(value = { "/id/get/{projectId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/get/id/{projectId}" }, method = RequestMethod.GET)
 	@ResponseBody
 	public Project getProjectById(@PathVariable Long projectId) {
 		Project project = projectDao.getById(projectId);
 		return project;
 	}
 
-	@RequestMapping(value = { "/categoryId/get/{categoryId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/get/categoryId/{categoryId}" }, method = RequestMethod.GET)
 	@ResponseBody
 	public List<Project> getProjectsByCategory(@PathVariable Long categoryId) {
 		Category category = new Category();
 		category.setId(categoryId);
-		List<Project> projects = projectDao.getProjectsByCategory(category);
-		return projects;
+		return projectDao.getProjectsByCategory(category);
 	}
 }

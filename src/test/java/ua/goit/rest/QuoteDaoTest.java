@@ -11,7 +11,7 @@ import ua.goit.rest.dao.QuoteDao;
 import ua.goit.rest.entity.Quote;
 
 
-public class quoteDaoTest {
+public class QuoteDaoTest {
 
 
 	ApplicationContext app;

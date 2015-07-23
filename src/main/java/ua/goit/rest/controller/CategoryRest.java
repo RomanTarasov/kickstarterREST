@@ -19,7 +19,6 @@ public class CategoryRest {
 	@RequestMapping(value = { "/getAll" }, method = RequestMethod.GET)
 	@ResponseBody
 	public List<Category> getAllCategories() {
-		List<Category> categories = categoryDao.getAllCategories();
-		return categories;
+		return categoryDao.getAllCategories();
 	}
 }

@@ -18,7 +18,15 @@ public class QuoteRest {
 	@RequestMapping(value = { "/getRandom" }, method = RequestMethod.GET)
 	@ResponseBody
 	public Quote getRandom() {
-		Quote quote = quoteDao.getRandom();
-		return quote;
+		return quoteDao.getRandom();
+	}
+	
+	@RequestMapping(value = "quote", method = RequestMethod.POST)
+	@ResponseBody
+	public Quote postQuote(Quote quote){
+		quoteDao.create(quote);
+		
+		return null;
+		
 	}
 }
