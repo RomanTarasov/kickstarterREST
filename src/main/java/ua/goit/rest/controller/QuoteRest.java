@@ -1,10 +1,13 @@
 package ua.goit.rest.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import ua.goit.rest.dao.QuoteDao;
 import ua.goit.rest.entity.Quote;
 
@@ -20,13 +23,19 @@ public class QuoteRest {
 	public Quote getRandom() {
 		return quoteDao.getRandom();
 	}
-	
+
+	@RequestMapping(value = { "/getAll" }, method = RequestMethod.GET)
+	@ResponseBody
+	public List<Quote> getAll() {
+		return quoteDao.getAllQuotes();
+	}
+
 	@RequestMapping(value = "quote", method = RequestMethod.POST)
 	@ResponseBody
-	public Quote postQuote(Quote quote){
+	public Quote postQuote(Quote quote) {
 		quoteDao.create(quote);
-		
+
 		return null;
-		
+
 	}
 }

@@ -17,6 +17,7 @@ div#header {
 	height: 86px;
 	background-color: menu;
 	font-size: medium;
+	
 }
 
 div#response {
@@ -42,13 +43,13 @@ td {
 
 <body background="">
 	<div id="header">
-		<h1>Kickstarter</h1>
+		<h1 align="center">Kickstarter</h1>
 	</div>
 
 	<div id="response">
-		<p id="quoteText"></p>
+		<p id="quoteText" align="center"></p>
 	</div>
-	<div id="categories">
+	<div id="categories" align="center">
 		<table>
 			<tr>
 				<td id="00"></td>
@@ -59,12 +60,23 @@ td {
 		</table>
 	</div>
 	<script>
-		$.getJSON('v1/quote/getRandom', function(data) {
-		
-			addQuoteText(data);
-		});
-		function addQuoteText(data) {
-			$('#quoteText').append("<p>" + data.text + "</p>");
+		var allQuotes = ["Do It"];
+
+		getAllQuotes();
+		nextQuote();
+		setInterval(nextQuote, 10000);
+
+		function nextQuote() {
+			var textField = document.getElementById("quoteText");
+			textField.innerHTML = allQuotes[Math.floor(Math.random() * (allQuotes.length))];
+		}
+		function getAllQuotes() {
+			$.getJSON('v1/quote/getAll', function(data) {
+				for (var index = 0; index < data.length; index++) {
+					allQuotes[index]=data[index].text;
+				}
+				
+			});
 		}
 	</script>
 	<script>
