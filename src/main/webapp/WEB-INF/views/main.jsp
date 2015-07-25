@@ -17,7 +17,6 @@ div#header {
 	height: 86px;
 	background-color: menu;
 	font-size: medium;
-	
 }
 
 div#response {
@@ -36,9 +35,24 @@ td {
 }
 </style>
 
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.1.0.min.js"></script>
-
+<script type="text/javascript">
+	function loadJSON(path, success, error) {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === XMLHttpRequest.DONE) {
+				if (xhr.status === 200) {
+					if (success)
+						success(JSON.parse(xhr.responseText));
+				} else {
+					if (error)
+						error(xhr);
+				}
+			}
+		};
+		xhr.open("GET", path, true);
+		xhr.send();
+	}
+</script>
 </head>
 
 <body background="">
@@ -60,7 +74,7 @@ td {
 		</table>
 	</div>
 	<script>
-		var allQuotes = ["Do It"];
+		var allQuotes = [ "Do It" ];
 
 		getAllQuotes();
 		nextQuote();
@@ -68,24 +82,31 @@ td {
 
 		function nextQuote() {
 			var textField = document.getElementById("quoteText");
-			textField.innerHTML = allQuotes[Math.floor(Math.random() * (allQuotes.length))];
+			textField.innerHTML = allQuotes[Math.floor(Math.random()
+					* (allQuotes.length))];
 		}
 		function getAllQuotes() {
-			$.getJSON('v1/quote/getAll', function(data) {
+			loadJSON('v1/quote/getAll', function(data) {
 				for (var index = 0; index < data.length; index++) {
-					allQuotes[index]=data[index].text;
+					allQuotes[index] = data[index].text;
 				}
-				
+			}, function(xhr) {
+				console.error(xhr);
 			});
 		}
 	</script>
 	<script>
-		$.getJSON('v1/category/getAll', function(data) {
+		loadJSON('v1/category/getAll', function(data) {
 			addCategoryName(data);
+		}, function(xhr) {
+			console.error(xhr);
 		});
+
 		function addCategoryName(data) {
 			for (var index = 0; index < data.length; index++) {
-				$('#0' + index).append("<p>" + data[index].name + "</p>");
+				var tableField = document
+						.getElementById("0" + index.toString());
+				tableField.innerHTML = data[index].name;
 			}
 		}
 	</script>
