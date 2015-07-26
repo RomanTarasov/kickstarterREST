@@ -4,6 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="<c:url value="/resources/jquery-1.11.3.min.js" />"></script>
+
 <meta http-equiv="Content-Type"
 	content="text/html; charset=windows-1256">
 <title>Main</title>
@@ -14,16 +16,32 @@ body {
 
 div#header {
 	width: auto;
-	height: 86px;
-	background-color: menu;
+	height: 40px;
+	background-color: #0DFC95;
 	font-size: medium;
 }
 
 div#response {
 	width: auto;
-	height: 86px;
-	background-color: menu;
+	height: 60px;
+	background-color: #78C0F4;
 	font-size: x-large;
+}
+
+table#projects {
+	
+}
+
+#category {
+	font-style: italic;
+	text-align: center;
+	background-color: #10E8E1;
+}
+
+#projects td {
+	background-color: #10E8E1;
+	color: purple;
+	font-size: large;
 }
 
 table#categories {
@@ -42,17 +60,13 @@ table#categories {
 	cursor: pointer;
 	background-color: #DA81F5;
 }
-
-td:ACTIVE {
-	width: 94px;
-	height: 30px;
-	background-color: green;
-	color: purple;
-	font-size: large;
-}
 </style>
-<script src="<c:url value="/resources/jquery-1.11.3.min.js" />"></script>
-
+<script>
+	var allQuotes = [ "Do It" ];
+	window.onload = function() {
+		initQuotes();
+	}
+</script>
 </head>
 
 <body background="">
@@ -66,26 +80,42 @@ td:ACTIVE {
 
 	<div id="categories" align="center"></div>
 
-	<div id="exp">
+	<h2 id="category">category</h2>
 
-		<table>
-			<tr>
-				<td>aa</td>
-			</tr>
+	<div id="projects">
+		<table id="projects_table">
 		</table>
 	</div>
 
 	<script>
+		var selectedCategory;
+		var projects;
+		var categories;
+
 		$.getJSON('v1/category/getAll', function(data) {
 			createCategoriesTable(data);
 		});
 
 		function createCategoriesTable(data) {
-			addTable("categories", data)
+			categories = data;
+			var onClickHandler = onclickCategoriesTdHandler;
+			addTable("categories", data);
+			selectRandomCategory(data);
+			$('#categories').find('td').click(onClickHandler);
+		}
+		function selectRandomCategory(data) {
+			var textField = document.getElementById("category");
+			var index = Math.floor(Math.random() * (data.length));
+			textField.innerHTML = data[index].name;
+			selectedCategory = data[index];
+			createProjectsTableByCategoryId(selectedCategory.id);
 
 		}
-		function onclickTdHandler() {
-
+		function onclickCategoriesTdHandler() {
+			var index = $(this).index();
+			createProjectsTableByCategoryId(categories[index].id);
+			var textField = document.getElementById("category");
+			textField.innerHTML = categories[index].name;
 		}
 
 		function addTable(elementId, data) {
@@ -102,13 +132,36 @@ td:ACTIVE {
 			}
 			myTableDiv.appendChild(table);
 		}
-	</script>
-	<script>
-		var allQuotes = [ "Do It" ];
 
-		getAllQuotes();
-		nextQuote();
-		setInterval(nextQuote, 10000);
+		function createProjectsTableByCategoryId(categoryId) {
+			$.getJSON('v1/project/get/categoryId/' + categoryId,
+					function(data) {
+						responseHandler(data);
+					});
+		}
+
+		function responseHandler(response) {
+			var c = [];
+			$.each(response, function(i, item) {
+				c.push("<tr><td>" + item.name + "</td>");
+				c.push("<td width='198px' height: 30px;>"
+						+ item.shortDescription + "</td>");
+				c.push("<td>" + "pledged: " + item.pledged + "</td>");
+				c.push("<td>" + "goal: " + item.goal + "</td>");
+				c
+						.push("<td>" + "the end day: " + item.theEndDay
+								+ "</td></tr>");
+			});
+
+			$('#projects_table').html(c.join(""));
+		}
+	</script>
+
+	<script>
+		function initQuotes() {
+			getAllQuotes();
+			setInterval(nextQuote, 10000);
+		}
 
 		function nextQuote() {
 			var textField = document.getElementById("quoteText");
@@ -120,9 +173,9 @@ td:ACTIVE {
 				for (var index = 0; index < data.length; index++) {
 					allQuotes[index] = data[index].text;
 				}
+				nextQuote();
 			});
 		}
 	</script>
-
 </body>
 </html>

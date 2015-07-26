@@ -5,8 +5,7 @@ INSERT INTO quotes VALUES (8,'Explore projects, everywhere','author');
 INSERT INTO quotes VALUES (4,'Each and every Kickstarter project is the independent creation of someone like you','author2');
 INSERT INTO categories VALUES (5,'Technology');
 INSERT INTO categories VALUES (4,'Social');
-INSERT INTO categories VALUES (3,'Games');
-INSERT INTO categories VALUES (2,'Music');
+
 INSERT INTO projects VALUES (1,
 'Create electrobike',
 5,
