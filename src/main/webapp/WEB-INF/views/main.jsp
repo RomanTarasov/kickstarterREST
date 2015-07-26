@@ -53,24 +53,6 @@ td:ACTIVE {
 </style>
 <script src="<c:url value="/resources/jquery-1.11.3.min.js" />"></script>
 
-<script type="text/javascript">
-	function loadJSON(path, success, error) {
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === XMLHttpRequest.DONE) {
-				if (xhr.status === 200) {
-					if (success)
-						success(JSON.parse(xhr.responseText));
-				} else {
-					if (error)
-						error(xhr);
-				}
-			}
-		};
-		xhr.open("GET", path, true);
-		xhr.send();
-	}
-</script>
 </head>
 
 <body background="">
@@ -94,10 +76,8 @@ td:ACTIVE {
 	</div>
 
 	<script>
-		loadJSON('v1/category/getAll', function(data) {
+		$.getJSON('v1/category/getAll', function(data) {
 			createCategoriesTable(data);
-		}, function(xhr) {
-			console.error(xhr);
 		});
 
 		function createCategoriesTable(data) {
@@ -136,12 +116,10 @@ td:ACTIVE {
 					* (allQuotes.length))];
 		}
 		function getAllQuotes() {
-			loadJSON('v1/quote/getAll', function(data) {
+			$.getJSON('v1/quote/getAll', function(data) {
 				for (var index = 0; index < data.length; index++) {
 					allQuotes[index] = data[index].text;
 				}
-			}, function(xhr) {
-				console.error(xhr);
 			});
 		}
 	</script>
