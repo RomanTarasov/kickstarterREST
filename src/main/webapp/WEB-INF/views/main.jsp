@@ -26,14 +26,32 @@ div#response {
 	font-size: x-large;
 }
 
-td {
+table#categories {
+	background-color: navy;
+}
+
+#categories td {
 	width: 94px;
 	height: 30px;
-	background-color: menu;
+	background-color: #E3CEF6;
+	color: purple;
+	font-size: large;
+}
+
+#categories td:hover {
+	cursor: pointer;
+	background-color: #DA81F5;
+}
+
+td:ACTIVE {
+	width: 94px;
+	height: 30px;
+	background-color: green;
 	color: purple;
 	font-size: large;
 }
 </style>
+<script src="<c:url value="/resources/jquery-1.11.3.min.js" />"></script>
 
 <script type="text/javascript">
 	function loadJSON(path, success, error) {
@@ -63,16 +81,48 @@ td {
 	<div id="response">
 		<p id="quoteText" align="center"></p>
 	</div>
-	<div id="categories" align="center">
+
+	<div id="categories" align="center"></div>
+
+	<div id="exp">
+
 		<table>
 			<tr>
-				<td id="00"></td>
-				<td id="01"></td>
-				<td id="02"></td>
-				<td id="03"></td>
+				<td>aa</td>
 			</tr>
 		</table>
 	</div>
+
+	<script>
+		loadJSON('v1/category/getAll', function(data) {
+			createCategoriesTable(data);
+		}, function(xhr) {
+			console.error(xhr);
+		});
+
+		function createCategoriesTable(data) {
+			addTable("categories", data)
+
+		}
+		function onclickTdHandler() {
+
+		}
+
+		function addTable(elementId, data) {
+			var myTableDiv = document.getElementById(elementId);
+			var table = document.createElement('TABLE');
+			var tableBody = document.createElement('TBODY');
+			table.appendChild(tableBody);
+			var tr = document.createElement('TR');
+			tableBody.appendChild(tr);
+			for (var j = 0; j < data.length; j++) {
+				var td = document.createElement('TD');
+				td.appendChild(document.createTextNode(data[j].name));
+				tr.appendChild(td);
+			}
+			myTableDiv.appendChild(table);
+		}
+	</script>
 	<script>
 		var allQuotes = [ "Do It" ];
 
@@ -95,20 +145,6 @@ td {
 			});
 		}
 	</script>
-	<script>
-		loadJSON('v1/category/getAll', function(data) {
-			addCategoryName(data);
-		}, function(xhr) {
-			console.error(xhr);
-		});
 
-		function addCategoryName(data) {
-			for (var index = 0; index < data.length; index++) {
-				var tableField = document
-						.getElementById("0" + index.toString());
-				tableField.innerHTML = data[index].name;
-			}
-		}
-	</script>
 </body>
 </html>
