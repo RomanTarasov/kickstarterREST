@@ -35,7 +35,7 @@ table#projects {
 #category {
 	font-style: italic;
 	text-align: center;
-	background-color: #10E8E1;
+	background-color: #E3CEF6;
 }
 
 #projects td {
@@ -43,6 +43,12 @@ table#projects {
 	color: purple;
 	font-size: large;
 }
+
+#projects td:hover {
+	cursor: pointer;
+	background-color: #DA81F5;
+}
+
 
 table#categories {
 	background-color: navy;
@@ -84,6 +90,9 @@ table#categories {
 
 	<div id="projects">
 		<table id="projects_table">
+		<tr>
+	
+		</tr>
 		</table>
 	</div>
 
@@ -143,7 +152,7 @@ table#categories {
 		function responseHandler(response) {
 			var c = [];
 			$.each(response, function(i, item) {
-				c.push("<tr><td>" + item.name + "</td>");
+				c.push("<tr><td  >" + item.name + "</td>");
 				c.push("<td width='198px' height: 30px;>"
 						+ item.shortDescription + "</td>");
 				c.push("<td>" + "pledged: " + item.pledged + "</td>");
